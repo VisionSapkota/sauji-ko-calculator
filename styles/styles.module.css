@@ -1,0 +1,9 @@
+@keyframes load {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.animateLoad {
+    animation: load 1s infinite ease-in-out;
+}

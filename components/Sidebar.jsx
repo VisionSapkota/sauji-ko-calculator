@@ -1,7 +1,8 @@
 'use client'
 import { useState } from "react";
 import SidebarItem from "./SidebarItem";
-import { faHouse, faPlus, faCubes, faBoxOpen, faTableList, faFolderPlus, faCircleUser, faGear } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars, faHouse, faPlus, faCubes, faBoxOpen, faTableList, faFolderPlus, faCircleUser, faGear } from "@fortawesome/free-solid-svg-icons";
 
 const Sidebar = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -16,7 +17,7 @@ const Sidebar = () => {
                 className="md:hidden bg-[#111] w-full text-white p-3"
                 aria-label="Toggle sidebar"
             >
-                ☰ Menu
+                <span><FontAwesomeIcon icon={faBars} /> Menu</span>
             </button>
 
             {/* Sidebar */}

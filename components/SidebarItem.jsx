@@ -1,7 +1,7 @@
 'use client'
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Link from "next/link";
 
 const SidebarItem = ({href, icon, label}) => {
     const path = usePathname();
