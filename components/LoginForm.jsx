@@ -1,17 +1,19 @@
 "use client"
-import { useState } from "react"
 import NewUser from "./NewUser"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
 import { supabase } from "@/lib/supabaseClient"
 
 const LoginForm = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [error, setError] = useState("")
+    const router = useRouter()
 
     const handler = async (e) => {
-        e.preventDefault();
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-
-        if (error) console.log(`\nCode:${error.code}\nMessage:${error.message}\nError${error.status}`)
+        e.preventDefault()
+        const { error } = await supabase.auth.signInWithPassword({ email, password })
+        error ? setError(error.message) : router.push("/dashboard");
     }
 
     return (
@@ -31,7 +33,7 @@ const LoginForm = () => {
             <p className="text-center text-sm text-gray-600 mt-4">
                 Don't have an account? <NewUser />
             </p>
-            <p className="text-center text-red-600 text-base font-semibold mt-4">{error.message}</p>
+            { error && <p className="text-center text-red-600 text-base font-semibold mt-4">{error}</p>}
         </div>
     )
 }

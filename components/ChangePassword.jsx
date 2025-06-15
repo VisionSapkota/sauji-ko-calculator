@@ -6,13 +6,8 @@ const ChangePassword = () => {
     const [newPass, setNewPass] = useState("")
     const [confirmPass, setConfirmPass] = useState("")
 
-    const handler = (e) => {
-        e.preventDefault();
-        console.log(`\n${currPass}\n${newPass}\n${confirmPass}`);
-    }
-
     return (
-        <form className="flex flex-col gap-6" onSubmit={handler}>
+        <form className="flex flex-col gap-6">
             <div>
                 <label className="block text-sm font-medium text-gray-600 mb-1">Current Password</label>
                 <input type="text" className="outline-none w-full border border-gray-300 rounded px-4 py-2" value={currPass} onChange={(e) => setCurrPass(e.target.value)} placeholder="Current Password" />
