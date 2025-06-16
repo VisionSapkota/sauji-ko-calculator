@@ -8,8 +8,8 @@ const page = () => {
 
   useEffect(() => {
     (async () => {
-      const { data: { session: { user } } } = await supabase.auth.getSession();
-      if (user) setUserName(user?.email.split("@")[0])
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) setUserName(session.user?.email.split("@")[0])
     })()
   })
 
