@@ -1,13 +1,18 @@
 "use client"
 import { useState } from "react"
+import { supabase } from "@/lib/supabaseClient"
 
 const ChangePassword = () => {
     const [currPass, setCurrPass] = useState("")
     const [newPass, setNewPass] = useState("")
     const [confirmPass, setConfirmPass] = useState("")
 
+    const submitHandler = async (e) => {
+        e.preventDefault()
+    }
+
     return (
-        <form className="flex flex-col gap-6">
+        <form className="flex flex-col gap-6" onSubmit={submitHandler}>
             <div>
                 <label className="block text-sm font-medium text-gray-600 mb-1">Current Password</label>
                 <input type="text" className="outline-none w-full border border-gray-300 rounded px-4 py-2" value={currPass} onChange={(e) => setCurrPass(e.target.value)} placeholder="Current Password" />

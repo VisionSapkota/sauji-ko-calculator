@@ -1,20 +1,42 @@
+"use client"
+import { useState, useEffect } from "react"
+import { supabase } from "@/lib/supabaseClient"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const Receipt = () => {
     const date = new Date();
+    const [data, setData] = useState([])
+    const [defaultData, setDefaultData] = useState({
+        store_name: "Sauji Ko Calculator",
+        store_address: "Kathmandu, Nepal",
+        contact: "Not Specified",
+        email: ""
+    }) 
+
+    useEffect(() => {
+        (async () => {
+            const { data: { user } = {} } = await supabase.auth.getUser();
+            const {data, error} = await supabase.from("Store Info").select("*").eq("id", user.id);
+            setDefaultData((dataa) => ({
+                ...dataa,
+                email: user.email
+            }));
+
+            error ? console.log(error.message) : setData(data[0]);
+        })();
+    }, [])
 
     return (
         <div className="bg-white p-6 rounded shadow max-w-2xl mt-10 text-black">
             <header className="text-center p-4 mb-8 border-b border-gray-300">
-                <h1 className="text-3xl font-bold mb-1">ABC Store</h1>
+                <h1 className="text-3xl font-bold mb-1">{data.store_name || defaultData.store_name}</h1>
                 <address className="not-italic text-sm mb-1">
-                    Tokha Road, Kathmandu, Nepal
+                    {data.store_address || defaultData.store_address}
                 </address>
                 <div className="text-sm">
-                    <span className="no-underline after:content-['|'] after:mx-1">+977 9812345678</span>
-                    <span className="no-underline after:content-['|'] after:mx-1">+977 9809876543</span>
-                    <span className="no-underline">store@example.com</span>
+                    <span className="no-underline after:content-['|'] after:mx-1">{data.contact || defaultData.contact}</span>
+                    <span className="no-underline">{data.email || defaultData.email}</span>
                 </div>
             </header>
 
