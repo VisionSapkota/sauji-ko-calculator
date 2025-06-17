@@ -43,7 +43,7 @@ const Receipt = () => {
             <div className="flex items-center justify-between gap-2 flex-wrap">
                 <div className="flex items-center gap-2">
                     <span className="font-bold">Bill no.:</span>
-                    <p>425</p>
+                    <p>426</p>
                 </div>
                 <div className="flex items-center gap-2">
                     <span className="font-bold">Date:</span>
