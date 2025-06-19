@@ -1,5 +1,6 @@
 "use client"
 import NewUser from "./NewUser"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { supabase } from "@/lib/supabaseClient"
@@ -24,7 +25,7 @@ const LoginForm = () => {
                 <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}
                     className="w-full mb-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-300 text-black" />
                 <div className="text-right mb-4">
-                    <a href="" className="text-sm text-purple-600 hover:underline">Forgot your password?</a>
+                    <Link href="/reset"><span className="text-sm text-purple-600 hover:underline">Forgot your password?</span></Link>
                 </div>
                 <button className="w-full text-center cursor-pointer bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition duration-300">
                     Login
@@ -33,7 +34,7 @@ const LoginForm = () => {
             <p className="text-center text-sm text-gray-600 mt-4">
                 Don't have an account? <NewUser />
             </p>
-            { error && <p className="text-center text-red-600 text-base font-semibold mt-4">{error}</p>}
+            {error && <p className="text-center text-red-600 text-base font-semibold mt-4">{error}</p>}
         </div>
     )
 }
