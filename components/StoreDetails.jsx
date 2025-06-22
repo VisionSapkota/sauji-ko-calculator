@@ -1,22 +1,29 @@
 "use client"
 import { useState } from "react"
 import { supabase } from "@/lib/supabaseClient"
+import Load from "./Load"
 
 const StoreDetails = () => {
     const [name, setName] = useState("")
     const [address, setAddress] = useState("")
     const [contact, setContact] = useState("")
     const [email, setEmail] = useState("")
+    const [resetIsLoad, setResetIsLoad] = useState(false)
+    const [saveIsLoad, setSaveIsLoad] = useState(false)
 
     const resetHandler = () => {
+        !saveIsLoad ? setResetIsLoad(true) : setResetIsLoad(false)
         setName("");
         setAddress("");
         setContact("");
         setEmail("");
+        setResetIsLoad(false)
     }
 
     const submitHandler = async (e) => {
         e.preventDefault();
+        setSaveIsLoad(true)
+
         let { data: { user: { id } = {} } = {}}  = await supabase.auth.getUser();
         const { error} = await supabase.from("Store Info").upsert([
             {
@@ -27,7 +34,9 @@ const StoreDetails = () => {
                 email: email
             }
         ], { onConflict: ['id'] })
+
         error ? alert(error.message) : resetHandler();
+        setSaveIsLoad(false)
     }
 
     return (
@@ -49,13 +58,12 @@ const StoreDetails = () => {
 
             <div>
                 <label className="block text-sm font-medium text-gray-600 mb-1">Email</label>
-                <input type="email" className="outline-none w-full border border-gray-300 rounded px-4 py-2" value={email} onChange={(e) => setEmail(e.target.value)} />
+                <input type="email" className="outline-none w-full border border-gray-300 rounded px-4 py-2" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
             </div>
 
             <div className="flex justify-end gap-4">
-                <button type="reset" className="bg-gray-200 text-black px-4 py-2 rounded hover:bg-gray-300 cursor-pointer" onClick={resetHandler} >Cancel</button>
-                <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">Save
-                    Changes</button>
+                <button type="reset" className="bg-gray-200 text-black px-4 py-2 rounded hover:bg-gray-300 cursor-pointer" onClick={resetHandler} >{resetIsLoad ? <Load /> : "Cancel" }</button>
+                <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">{saveIsLoad ? <Load /> : "Save Changes" }</button>
             </div>
         </form>
     )

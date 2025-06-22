@@ -27,7 +27,7 @@ const Sidebar = () => {
                 ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
                 md:translate-x-0`}>
 
-                <h2 className="font-bold text-xl mt-5">Sauji Ko Calculator</h2>
+                <h2 className="font-bold text-xl mt-5">BillTree</h2>
                 <div className="mt-3 w-full h-full flex flex-col text-lg pl-3 justify-evenly">
                     <SidebarItem href="/dashboard" icon={faHouse} label="Home" />
                     <SidebarItem href="/new" icon={faPlus} label="New" />

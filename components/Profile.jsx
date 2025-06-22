@@ -8,8 +8,8 @@ const Profile = () => {
 
     const [data, setData] = useState([])
     const [defaultData, setDefaultData] = useState({
-        store_name: "Sauji Ko Calculator",
-        store_address: "Kathmandu, Nepal",
+        store_name: "BillTree",
+        store_address: "Not Specified",
         contact: "Not Specified",
         email: ""
     }) 
@@ -30,10 +30,10 @@ const Profile = () => {
 
     return (
         <div>
-            <StoreInfo label="Store Name" info={data.store_name || defaultData.store_name} />
-            <StoreInfo label="Address" info={data.store_address || defaultData.store_address} />
-            <StoreInfo label="Contact Number" info={data.contact || defaultData.contact} />
-            <StoreInfo label="Email" info={data.email || defaultData.email} />
+            <StoreInfo label="Store Name" info={data?.store_name || defaultData.store_name} />
+            <StoreInfo label="Address" info={data?.store_address || defaultData.store_address} />
+            <StoreInfo label="Contact Number" info={data?.contact || defaultData.contact} />
+            <StoreInfo label="Email" info={data?.email || defaultData.email} />
             <div className="flex gap-4 mt-6">
                 <Link href="/settings">
                     <span className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Edit Store Info</span>

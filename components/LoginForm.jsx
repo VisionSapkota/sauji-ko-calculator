@@ -3,18 +3,22 @@ import NewUser from "./NewUser"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import Load  from "./Load"
 import { supabase } from "@/lib/supabaseClient"
 
 const LoginForm = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
+    const [isLoad, setIsLoad] = useState(false)
     const router = useRouter()
 
     const handler = async (e) => {
         e.preventDefault()
+        setIsLoad(true)
         const { error } = await supabase.auth.signInWithPassword({ email, password })
         error ? setError(error.message) : router.push("/dashboard");
+        setIsLoad(false)
     }
 
     return (
@@ -28,7 +32,7 @@ const LoginForm = () => {
                     <Link href="/reset"><span className="text-sm text-purple-600 hover:underline">Forgot your password?</span></Link>
                 </div>
                 <button className="w-full text-center cursor-pointer bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition duration-300">
-                    Login
+                    {isLoad ? <Load /> : "Login"}
                 </button>
             </form>
             <p className="text-center text-sm text-gray-600 mt-4">

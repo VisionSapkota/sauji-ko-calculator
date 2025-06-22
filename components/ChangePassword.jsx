@@ -1,5 +1,6 @@
 "use client"
 import { useState } from "react"
+import Load from "./Load"
 import { supabase } from "@/lib/supabaseClient"
 
 const ChangePassword = () => {
@@ -7,37 +8,43 @@ const ChangePassword = () => {
     const [newPass, setNewPass] = useState("")
     const [confirmPass, setConfirmPass] = useState("")
     const [error, setError] = useState("")
+    const [isLoad, setIsLoad] = useState(false)
 
     const submitHandler = async (e) => {
         e.preventDefault()
+        setIsLoad(true)
         setError("")
-        
-        const { data: { user } } = await supabase.auth.getUser()
-        const emaill = user.email;
-        const { error } = await supabase.auth.signInWithPassword({email: emaill, password: currPass})
 
+        const { data: { user } } = await supabase.auth.getUser()
+        const emaill = user.email; 
+        const { error } = await supabase.auth.signInWithPassword({ email: emaill, password: currPass })
+        
         if (error) {
             setError("Current password is incorrect. Please try again.");
+            setIsLoad(false)
             return;
         }
 
         if (currPass === newPass) {
             setError("New password cannot be the same as current password.");
+            setIsLoad(false)
             return;
         }
 
         if (newPass !== confirmPass) {
             setError("New password and confirm password do not match.");
+            setIsLoad(false)
             return;
         }
         changePass()
     }
 
     const changePass = async () => {
-        const { error } = await supabase.auth.updateUser({password: newPass})
+        const { error } = await supabase.auth.updateUser({ password: newPass })
 
         if (error) {
             setError(`Error changing password: ${error.message}`)
+            setIsLoad(false)
             return;
         }
 
@@ -45,6 +52,7 @@ const ChangePassword = () => {
         setCurrPass("")
         setNewPass("")
         setConfirmPass("")
+        setIsLoad(false)
     }
 
     return (
@@ -65,10 +73,10 @@ const ChangePassword = () => {
             </div>
 
             <div className="flex justify-end gap-4">
-                <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">Change Password</button>
+                <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">{isLoad ? <Load /> : "Change Password"}</button>
             </div>
-            
-            { error && <p className="text-center text-red-600 text-base font-semibold mt-4">{error}</p>}
+
+            {error && <p className="text-center text-red-600 text-base font-semibold mt-4">{error}</p>}
         </form>
     )
 }
